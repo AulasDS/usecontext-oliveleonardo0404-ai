@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-export default function Products() {
+export default function Clarus() {
 
     const [products, setProducts] = useState([]);
 
@@ -12,22 +12,23 @@ export default function Products() {
     }, []);
 
     async function getProducts() {
-        const res = await axios.get('https://dummyjson.com/products')
-        setProducts(res.data.products);
+        const res = await axios.get('https://restcountries.com/v3.1/all?fields=name,capital,currencies')
+        setProducts(res.data);
+        console.log(res.data);
     }
 
     return (
         <>
             <h1 className={styles.products}>Lista dos produtos</h1>
-
+            
             <div className="row row-cols-1 row-cols-md-3 g-4">
                 { products.map((product: any) => (
-                    <div className="col" key={product.id}>
+                    <div className="col" key={product.name}>
                         <div className="card h-100">
-                        <img src={product.images[0]} className="card-img-top" alt={product.title}/>
                         <div className="card-body">
-                            <h5 className="card-title">{product.title}</h5>
-                            <p className="card-text">{product.description}</p>
+                            <h5 className="card-title">{product.name.common} - {product.name.official}</h5>
+                            <p className="card-text">{product.capital}</p>
+                            <p className="card-text">Moeda:{product.currencies[0]}</p>
                         </div>
                     </div>
                 </div>
